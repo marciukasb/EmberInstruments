@@ -6,19 +6,23 @@ import styles from "../../styles/NavLink.module.scss";
 
 interface Props {
   href: string;
-  name: string;
+  name?: string;
   type?: string;
+  children?: React.ReactNode;
 }
 
 const NavLink = (props: Props) => {
-  const pathname = usePathname();
-  const isActive = pathname === props.href;
+  const isActive = usePathname() === props.href;
+
+  const renderLinks = () => {
+    if (props.type === "anchor") return <a href={props.href}>{props.name}</a>;
+    return <Link href={props.href}>{props.name ?? props.children}</Link>;
+  };
   return (
     <div
       className={`${styles.navlink} ${isActive && styles["navlink--active"]}`}
     >
-      {props.type !== "anchor" && <Link href={props.href}>{props.name}</Link>}
-      {props.type === "anchor" && <a href={props.href}>{props.name}</a>}
+      {renderLinks()}
     </div>
   );
 };
