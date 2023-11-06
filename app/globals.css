@@ -40,12 +40,12 @@
   margin: 0;
 }
 
-html,
 body {
   max-width: 1240px;
   overflow-x: hidden;
   margin-left: auto;
   margin-right: auto;
+  padding: 0 16px;
 }
 
 body {
