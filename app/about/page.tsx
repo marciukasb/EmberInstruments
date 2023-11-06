@@ -1,4 +1,11 @@
-import styles from "./page.module.css";
+import pageData from "../_data/meta";
+
+const page = pageData["About"];
+
+export const metadata = {
+  title: page.title,
+  description: page.description,
+};
 
 const About = () => {
   return (

@@ -12,10 +12,7 @@ interface Props {
 
 const NavLink = (props: Props) => {
   const pathname = usePathname();
-
   const isActive = pathname === props.href;
-  console.log(styles);
-
   return (
     <div
       className={`${styles.navlink} ${isActive && styles["navlink--active"]}`}
