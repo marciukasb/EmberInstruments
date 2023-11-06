@@ -17,6 +17,10 @@ const pageData = {
     title: "Ember Instruments - Contacts",
     description: "",
   },
+  404: {
+    title: "404 Page not found",
+    description: "Application Error",
+  },
 } as PageData;
 
 export default pageData;
