@@ -1,0 +1,16 @@
+.navlink {
+  margin-left: 64px;
+  display: flex;
+  align-items: center;
+
+  a {
+    text-transform: uppercase;
+  }
+
+  &--active,
+  &:hover {
+    color: rgb(163, 163, 163);
+    text-decoration: underline;
+    text-underline-offset: 7px;
+  }
+}
