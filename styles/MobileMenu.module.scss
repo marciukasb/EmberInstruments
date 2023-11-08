@@ -10,7 +10,6 @@
   }
 
   &__select {
-    border-top: 1px solid #363636;
     transition: max-height 0.15s ease-out;
     background: black;
     position: absolute;
@@ -24,6 +23,7 @@
     max-height: 0;
     overflow: hidden;
     z-index: 1000;
+    box-shadow: 0 -1px 0 #363636;
 
     &--open {
       max-height: 500px;
