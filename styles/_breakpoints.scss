@@ -1,0 +1,24 @@
+$screen-sm-min: 360px;
+$screen-md-min: 920px;
+$screen-lg-min: 1300px;
+
+// Small devices
+@mixin breakpoint-sm {
+  @media (min-width: #{$screen-sm-min}) {
+    @content;
+  }
+}
+
+// Medium devices
+@mixin breakpoint-md {
+  @media (min-width: #{$screen-md-min}) {
+    @content;
+  }
+}
+
+// Large devices
+@mixin breakpoint-lg {
+  @media (min-width: #{$screen-lg-min}) {
+    @content;
+  }
+}

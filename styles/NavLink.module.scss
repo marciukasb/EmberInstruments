@@ -2,13 +2,10 @@
   margin-left: 64px;
   display: flex;
   align-items: center;
+  margin-left: 0;
 
   a {
     text-transform: uppercase;
-  }
-
-  &:first-of-type {
-    margin-left: 0;
   }
 
   &--active,

@@ -1,19 +1,43 @@
+@import "./_breakpoints.scss";
+
 .navigation {
   display: flex;
   box-sizing: border-box;
   padding: 7px 0;
-  justify-content: space-between;
+  @include breakpoint-md {
+    justify-content: space-between;
+  }
 
   a {
     margin-right: auto;
     padding: 8px 0;
   }
   img {
-    height: 60px;
+    height: 31.56px;
+    margin-left: 12px;
+
+    @include breakpoint-md {
+      height: 60px;
+    }
+  }
+
+  &__hamburger {
+    display: flex;
+    align-items: center;
+    @include breakpoint-md {
+      display: none;
+    }
   }
 
   &__menu {
-    display: flex;
+    display: none;
     justify-content: space-between;
+    @include breakpoint-md {
+      display: flex;
+    }
+
+    div {
+      margin-left: 64px;
+    }
   }
 }
