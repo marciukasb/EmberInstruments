@@ -1,11 +1,17 @@
 "use client";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import styles from "../../styles/MobileMenu.module.scss";
 import Hamburger from "./Hamburger";
 import NavLink from "./NavLink";
+import { usePathname } from "next/navigation";
 
 const MobileMenu = () => {
   const [active, setActive] = useState(false);
+  const location = usePathname();
+
+  useEffect(() => {
+    setActive(false);
+  }, [location]);
 
   return (
     <div className={styles.mobileMenu}>

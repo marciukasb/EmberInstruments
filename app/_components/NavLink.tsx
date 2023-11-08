@@ -18,6 +18,7 @@ const NavLink = (props: Props) => {
     if (props.type === "anchor") return <a href={props.href}>{props.name}</a>;
     return <Link href={props.href}>{props.name ?? props.children}</Link>;
   };
+
   return (
     <div
       className={`${styles.navlink} ${isActive && styles["navlink--active"]}`}
