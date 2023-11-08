@@ -1,8 +1,14 @@
+@import "./_breakpoints.scss";
+
 .hamburger {
   align-self: center;
   height: 18px;
   width: 24px;
   cursor: pointer;
+
+  @include breakpoint-md {
+    display: none;
+  }
 
   span,
   span::before,
