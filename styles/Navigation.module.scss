@@ -1,13 +1,14 @@
 @import "./_breakpoints.scss";
+@import "./_variables.scss";
 
 .navigation {
   display: flex;
   box-sizing: border-box;
   padding: 7px 0;
-  max-height: 62px;
+  max-height: $mobileNavHeight;
   @include breakpoint-md {
     justify-content: space-between;
-    max-height: 90px;
+    max-height: $defaultNavHeight;
   }
 
   a {
@@ -19,13 +20,13 @@
     }
   }
   img {
-    height: 31.56px;
+    height: $mobileLogoHeight;
     margin-left: 12px;
-    margin-top: 3px;
+    margin-top: $mobileLogoSpacing;
 
     @include breakpoint-md {
-      height: 60px;
-      margin-left: 0;
+      height: $defaultLogoHeight;
+      margin-left: $defaultLogoSpacing;
     }
   }
 
@@ -37,7 +38,7 @@
     }
 
     div {
-      margin-left: 64px;
+      margin-left: $defaultMenuItemSpacing;
     }
   }
 }

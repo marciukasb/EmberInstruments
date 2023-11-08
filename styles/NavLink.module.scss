@@ -1,8 +1,23 @@
+@import "./_breakpoints.scss";
+
 .navlink {
   margin-left: 64px;
   display: flex;
   align-items: center;
   margin-left: 0;
+  margin-right: 16px;
+
+  @include breakpoint-md {
+    margin-right: 0;
+  }
+
+  &:first-of-type {
+    margin-top: 16px;
+  }
+
+  &:last-of-type {
+    margin-bottom: 16px;
+  }
 
   a {
     text-transform: uppercase;

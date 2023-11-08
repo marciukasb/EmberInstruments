@@ -1,4 +1,5 @@
 @import "./_breakpoints.scss";
+@import "./_variables.scss";
 
 .mobileMenu {
   display: flex;
@@ -10,15 +11,32 @@
 
   &__select {
     border-top: 1px solid #363636;
+    transition: max-height 0.15s ease-out;
     background: black;
     position: absolute;
-    top: 62px;
+    top: $mobileNavHeight;
     left: 0;
     width: 100%;
     display: flex;
     flex-direction: column;
-    align-items: end;
-    padding: 16px;
+    align-items: flex-end;
     gap: 16px;
+    max-height: 0;
+    overflow: hidden;
+    z-index: 1000;
+
+    &--open {
+      max-height: 500px;
+      transition: max-height 0.25s ease-in;
+    }
+  }
+
+  &__overlay {
+    position: fixed;
+    top: $mobileNavHeight;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    z-index: 999;
   }
 }

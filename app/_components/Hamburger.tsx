@@ -3,21 +3,17 @@ import React, { useState } from "react";
 import styles from "../../styles/Hamburger.module.scss";
 
 interface Props {
+  active: boolean;
   onToggle: any;
 }
 
 const Hamburger = (props: Props) => {
-  const [active, setActive] = useState(false);
-
   return (
     <div
       className={`${styles.hamburger} ${
-        active ? styles["hamburger--active"] : ""
+        props.active ? styles["hamburger--active"] : ""
       }`}
-      onClick={() => {
-        props.onToggle();
-        setActive(!active);
-      }}
+      onClick={() => props.onToggle()}
     >
       <span></span>
     </div>
