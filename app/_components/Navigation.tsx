@@ -1,11 +1,12 @@
 import NavLink from "./NavLink";
 import styles from "../../styles/Navigation.module.scss";
-import Hamburger from "./Hamburger";
+import MobileMenu from "./MobileMenu";
 
 const Navigation = () => {
   return (
     <nav className={styles.navigation}>
-      <Hamburger />
+      <MobileMenu />
+
       <NavLink href="/" type="acnhor">
         <img src="https://assets.zyrosite.com/cdn-cgi/image/format=auto,w=306,fit=crop,q=95/YNqOjeJqkgtLP0Zw/ember-instruments-ig-white-AzG80ZlJ7es2xvZJ.jpg" />
       </NavLink>

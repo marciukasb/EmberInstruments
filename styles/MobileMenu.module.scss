@@ -1,0 +1,24 @@
+@import "./_breakpoints.scss";
+
+.mobileMenu {
+  display: flex;
+  align-items: center;
+
+  @include breakpoint-md {
+    display: none;
+  }
+
+  &__select {
+    border-top: 1px solid #363636;
+    background: black;
+    position: absolute;
+    top: 62px;
+    left: 0;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: end;
+    padding: 16px;
+    gap: 16px;
+  }
+}

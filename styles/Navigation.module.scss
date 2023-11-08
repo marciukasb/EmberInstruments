@@ -4,29 +4,28 @@
   display: flex;
   box-sizing: border-box;
   padding: 7px 0;
+  max-height: 62px;
   @include breakpoint-md {
     justify-content: space-between;
+    max-height: 90px;
   }
 
   a {
     margin-right: auto;
-    padding: 8px 0;
+    padding: 4px 0;
+
+    @include breakpoint-md {
+      padding: 8px 0;
+    }
   }
   img {
     height: 31.56px;
     margin-left: 12px;
+    margin-top: 3px;
 
     @include breakpoint-md {
       height: 60px;
       margin-left: 0;
-    }
-  }
-
-  &__hamburger {
-    display: flex;
-    align-items: center;
-    @include breakpoint-md {
-      display: none;
     }
   }
 

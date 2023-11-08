@@ -5,10 +5,9 @@
   height: 18px;
   width: 24px;
   cursor: pointer;
-
-  @include breakpoint-md {
-    display: none;
-  }
+  margin-top: -8px;
+  display: flex;
+  align-items: center;
 
   span,
   span::before,
@@ -33,6 +32,7 @@
 
   &--active span {
     background: transparent;
+    margin-left: -4px;
   }
 
   &--active span::before {
