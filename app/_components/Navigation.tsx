@@ -3,6 +3,8 @@ import styles from "../../styles/Navigation.module.scss";
 import MobileMenu from "./MobileMenu";
 
 const Navigation = () => {
+  const showShop = false;
+
   return (
     <nav className={styles.navigation}>
       <MobileMenu />
@@ -14,11 +16,13 @@ const Navigation = () => {
         <NavLink href="/" name="Home" />
         <NavLink href="/about" name="About" />
         <NavLink href="/contacts" name="Contacts" />
-        <NavLink
-          href="https://emberinstruments.shop"
-          name="Shop"
-          type="anchor"
-        />
+        {showShop && (
+          <NavLink
+            href="https://emberinstruments.shop"
+            name="Shop"
+            type="anchor"
+          />
+        )}
       </div>
     </nav>
   );
