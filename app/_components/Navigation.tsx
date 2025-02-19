@@ -15,6 +15,7 @@ const Navigation = () => {
       <div className={styles.navigation__menu}>
         <NavLink href="/" name="Home" />
         <NavLink href="/about" name="About" />
+        <NavLink href="/blog" name="Blog" />
         <NavLink href="/contacts" name="Contacts" />
         {showShop && (
           <NavLink

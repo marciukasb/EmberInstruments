@@ -13,6 +13,10 @@ const pageData = {
     title: "Ember Instruments - About",
     description: "",
   },
+  Blog: {
+    title: "Ember Instruments - Blog",
+    description: "",
+  },
   Contacts: {
     title: "Ember Instruments - Contacts",
     description: "",
