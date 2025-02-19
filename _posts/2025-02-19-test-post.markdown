@@ -5,4 +5,4 @@ Field name:
 ---
 
 Body of the post
-[DSCF7073.JPG](/uploads/DSCF7073.JPG)
+[DSCF7073.JPG](http://emberinstruments.siteleaf.net/uploads/DSCF7073.JPG)
