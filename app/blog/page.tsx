@@ -1,37 +1,49 @@
 import Parser from "rss-parser";
-import style from "./blog.module.scss";
+import BlogList from "../_components/BlogList/BlogList";
+import { BlogPost } from "../types/BlogPost";
 
 export const metadata = {
   title: "Blog",
   description: "Latest posts from Ember Instruments",
 };
 
-async function fetchBlogPosts() {
+async function fetchBlogPosts(): Promise<Array<BlogPost>> {
   const parser = new Parser();
   const feed = await parser.parseURL(
     "http://emberinstruments.siteleaf.net/feed.xml"
   );
 
   return feed.items.map((item) => {
-    // Ensure images have absolute URLs
     let description =
       item.content || item.contentSnippet || item.description || "";
+    description = description.replace(
+      /"thumbnail":\s*"\/uploads\//,
+      `"thumbnail": "http://emberinstruments.siteleaf.net/uploads/`
+    );
     description = description.replace(
       /src="\/uploads/g,
       'class="blog-image" src="http://emberinstruments.siteleaf.net/uploads'
     );
 
-    description = description.replace(
-      /src="\/uploads/g,
-      'src="http://emberinstruments.siteleaf.net/uploads'
-    );
+    const startWord = "<Metadata>";
+    const endWord = "</Metadata>";
+
+    const startIndex = description.indexOf(startWord) + startWord.length;
+    const endIndex = description.indexOf(endWord, startIndex);
+
+    const metadataString = description.substring(startIndex, endIndex).trim();
+
+    console.log("metadataString:", metadataString);
+    let metadata = JSON.parse(metadataString) as any;
 
     return {
       title: item.title,
-      link: item.link,
+      thumbnail: metadata.thumbnail,
+      summary: metadata.summary,
       description,
-      pubDate: item.pubDate,
-    };
+      topic: item.category || (item.categories && item.categories[0]),
+      date: item.pubDate,
+    } as BlogPost;
   });
 }
 
@@ -41,23 +53,7 @@ export default async function Blog() {
   return (
     <main>
       <h1>Blog</h1>
-      <ul>
-        {posts.map((post, index) => (
-          <li key={index}>
-            <h2>
-              <a href={post.link} target="_blank" rel="noopener noreferrer">
-                {post.title}
-              </a>
-            </h2>
-            {/* Prevent hydration errors by ensuring safe HTML rendering */}
-            <div
-              dangerouslySetInnerHTML={{ __html: post.description }}
-              suppressHydrationWarning={true}
-            ></div>
-            <small>{post.pubDate}</small>
-          </li>
-        ))}
-      </ul>
+      <BlogList posts={posts} />
     </main>
   );
 }

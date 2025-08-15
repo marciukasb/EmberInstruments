@@ -1,5 +1,6 @@
 import React from "react";
 import BlogListItem from "./BlogListItem";
+import styles from "./BlogList.module.scss";
 import { BlogPost } from "@/app/types/BlogPost";
 
 interface BlogListProps {
@@ -8,7 +9,7 @@ interface BlogListProps {
 
 const BlogList: React.FC<BlogListProps> = ({ posts }) => {
   return (
-    <div className="space-y-8">
+    <div className={styles.blogList}>
       {posts.map((post, index) => (
         <BlogListItem key={index} {...post} />
       ))}
