@@ -1,6 +1,6 @@
 ---
 title: Ember Instruments
-timezone: UTC
+timezone: Europe/Helsinki
 collections:
   posts:
     title: Posts
@@ -21,3 +21,4 @@ defaults:
   values:
     layout: page
 permalink: pretty
+thumbnail: testThumbnail
