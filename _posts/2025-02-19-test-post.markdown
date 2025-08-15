@@ -8,8 +8,8 @@ thumbnail: "/uploads/DSCF7073.JPG"
 
 <Metadata>
 {
-thumbnail: "/uploads/DSCF7073.JPG",
-summary: "Short summary of the blog post"
+"thumbnail": "/uploads/DSCF7073.JPG",
+"summary": "Short summary of the blog post"
 }
 </Metadata>
 
