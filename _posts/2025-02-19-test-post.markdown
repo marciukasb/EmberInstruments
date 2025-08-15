@@ -1,11 +1,17 @@
 ---
 title: Test post
-date: 2025-02-19 17:06:00 Z
+date: 2025-02-19 19:06:00 +02:00
 tags:
 - Instruments
 thumbnail: "/uploads/DSCF7073.JPG"
-short: Short summary of the blog post
 ---
+
+<Metadata>
+{
+thumbnail: "/uploads/DSCF7073.JPG",
+summary: "Short summary of the blog post"
+}
+</Metadata>
 
 Body of the post
 
