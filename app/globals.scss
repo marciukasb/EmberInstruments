@@ -26,11 +26,8 @@
 }
 
 body {
-  max-width: 1240px;
   overflow-x: hidden;
-  margin-left: auto;
-  margin-right: auto;
-  padding: 0 16px;
+
   color: rgb(var(--foreground-rgb));
   background: linear-gradient(
       to bottom,
@@ -46,6 +43,9 @@ a {
 }
 
 main {
+  margin-left: auto;
+  margin-right: auto;
+  max-width: 1240px;
   padding-top: 56px;
   min-height: 100vh;
   @include breakpoint-md {
@@ -63,4 +63,20 @@ h6 {
   margin-bottom: 8px;
   font-size: 18px;
   font-weight: 300;
+}
+
+.scroll-container {
+  height: 100vh; /* full screen height */
+  overflow-y: scroll;
+  scroll-snap-type: y mandatory; /* enables vertical snap */
+}
+
+.scroll-container > section {
+  height: 100vh; /* each section fills screen */
+  scroll-snap-align: start; /* snap section to top of viewport */
+}
+
+// For blog images
+.blog-image {
+  max-width: 400px;
 }

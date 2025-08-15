@@ -1,0 +1,50 @@
+@import "./_breakpoints.scss";
+@import "./_variables.scss";
+
+.navigation {
+  position: absolute;
+  display: flex;
+  box-sizing: border-box;
+  padding: 7px 0;
+  height: $mobileNavHeight;
+  justify-content: end;
+  margin-right: 24px;
+  z-index: 1000;
+  top: 0;
+  right: 0;
+
+  @include breakpoint-md {
+    height: $defaultNavHeight;
+  }
+
+  a {
+    margin-right: auto;
+    padding: 4px 0;
+
+    @include breakpoint-md {
+      padding: 8px 0;
+    }
+  }
+  img {
+    height: $mobileLogoHeight;
+    margin-left: 12px;
+    margin-top: $mobileLogoSpacing;
+
+    @include breakpoint-md {
+      height: $defaultLogoHeight;
+      margin-left: $defaultLogoSpacing;
+    }
+  }
+
+  &__menu {
+    display: none;
+    justify-content: space-between;
+    @include breakpoint-md {
+      display: flex;
+    }
+
+    div {
+      margin-left: $defaultMenuItemSpacing;
+    }
+  }
+}

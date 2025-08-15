@@ -1,3 +1,6 @@
+"use client";
+
+import { useEffect } from "react";
 import styles from "../../styles/Footer.module.scss";
 
 const Footer = () => {

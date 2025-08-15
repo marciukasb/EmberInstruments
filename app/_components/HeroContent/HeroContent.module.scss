@@ -1,0 +1,26 @@
+.heroContent {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  gap: 1rem;
+  color: #fff;
+
+  &__logo {
+    max-width: 200px;
+    height: auto;
+  }
+
+  &__title {
+    font-size: 2.5rem;
+    font-weight: bold;
+    margin: 0;
+  }
+
+  &__description {
+    font-size: 1.25rem;
+    max-width: 600px;
+    opacity: 0.9;
+  }
+}

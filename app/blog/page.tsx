@@ -1,4 +1,5 @@
 import Parser from "rss-parser";
+import style from "./blog.module.scss";
 
 export const metadata = {
   title: "Blog",
@@ -15,6 +16,11 @@ async function fetchBlogPosts() {
     // Ensure images have absolute URLs
     let description =
       item.content || item.contentSnippet || item.description || "";
+    description = description.replace(
+      /src="\/uploads/g,
+      'class="blog-image" src="http://emberinstruments.siteleaf.net/uploads'
+    );
+
     description = description.replace(
       /src="\/uploads/g,
       'src="http://emberinstruments.siteleaf.net/uploads'
