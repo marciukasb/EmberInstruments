@@ -15,10 +15,13 @@ const MobileMenu = () => {
 
   return (
     <div className={styles.mobileMenu}>
+      {/* Hamburger stays on top */}
       <Hamburger active={active} onToggle={() => setActive(!active)} />
+
+      {/* Fullscreen menu */}
       <div
-        className={`${styles.mobileMenu__select} ${
-          active ? styles["mobileMenu__select--open"] : ""
+        className={`${styles.mobileMenu__fullscreen} ${
+          active ? styles["mobileMenu__fullscreen--open"] : ""
         }`}
       >
         <NavLink href="/" name="Home" />
@@ -30,11 +33,13 @@ const MobileMenu = () => {
           type="anchor"
         />
       </div>
+
+      {/* Overlay behind the menu */}
       {active && (
         <div
           className={styles.mobileMenu__overlay}
           onClick={() => setActive(false)}
-        ></div>
+        />
       )}
     </div>
   );
