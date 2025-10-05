@@ -3,17 +3,21 @@
   grid-template-columns: 2fr 1fr;
   gap: 1.5rem;
   align-items: stretch;
+  padding: 16px;
 
-  &__content {
+  &:hover {
+    background-color: rgba($color: #e0d6d6, $alpha: 0.1);
+    cursor: pointer;
+  }
+
+  &__textColumn {
     display: flex;
+    padding: 16px 0;
     flex-direction: column;
     justify-content: space-between;
   }
 
   &__title {
-    font-size: 1.5rem;
-    font-weight: bold;
-    margin: 0 0 0.5rem 0;
   }
 
   &__description {

@@ -1,6 +1,7 @@
 import Parser from "rss-parser";
 import BlogList from "../_components/BlogList/BlogList";
 import { BlogPost } from "../types/BlogPost";
+import { formatDate } from "../utils";
 
 export const metadata = {
   title: "Blog",
@@ -33,7 +34,6 @@ async function fetchBlogPosts(): Promise<Array<BlogPost>> {
 
     const metadataString = description.substring(startIndex, endIndex).trim();
 
-    console.log("metadataString:", metadataString);
     let metadata = JSON.parse(metadataString) as any;
 
     return {
@@ -42,7 +42,7 @@ async function fetchBlogPosts(): Promise<Array<BlogPost>> {
       summary: metadata.summary,
       description,
       topic: item.category || (item.categories && item.categories[0]),
-      date: item.pubDate,
+      date: formatDate(item.pubDate),
     } as BlogPost;
   });
 }

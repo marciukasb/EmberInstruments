@@ -7,22 +7,29 @@
   box-sizing: border-box;
   padding: 7px 0;
   height: $mobileNavHeight;
-  justify-content: end;
-  margin-right: 24px;
+  justify-content: flex-end;
+  padding-right: 24px;
+  padding-left: 24px;
   z-index: 1000;
   top: 0;
   right: 0;
 
   @include breakpoint-md {
+    width: 100vw;
+    justify-content: right;
+    padding-left: 224px;
     height: $defaultNavHeight;
   }
 
-  a {
+  &__logo {
     margin-right: auto;
     padding: 4px 0;
 
     @include breakpoint-md {
       padding: 8px 0;
+      position: absolute;
+      left: 50%;
+      transform: translateX(-50%);
     }
   }
   img {
