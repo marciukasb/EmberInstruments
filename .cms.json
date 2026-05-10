@@ -4,6 +4,7 @@
       "name": "Blog Posts",
       "folder": "app/_data/_blog",
       "imageFolder": "public/images",
+      "imageUrlPrefix": "/images",
       "fields": [
         { "name": "title", "type": "text" },
         { "name": "summary", "type": "textarea" },
