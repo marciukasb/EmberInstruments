@@ -10,13 +10,13 @@ interface ImageItem {
 }
 
 const ThreeImageSection = () => {
-  const sectionTitle = "Lorem ipsum dolor";
+  const sectionTitle = "Built by hand. Made to play.";
   const description =
-    "Est aliquam viverra mauris tellus bibendum posuere ornare dictum. Sit eget libero id gravida tellus cras mi pretium. Proin tempor vestibulum nullam dictum parturient aliquet vitae et a. ";
+    "At Ember Instruments, every electric guitar and bass is crafted one at a time — by hand, with care, and with musicians in mind. No shortcuts, no assembly lines. Just instruments made the way they should be.";
   const images: ImageItem[] = [
-    { src: "images/placeholder.png", title: "Dolor sit amet" },
-    { src: "images/placeholder.png", title: "Dolor sit amet" },
-    { src: "images/placeholder.png", title: "Dolor sit amet" },
+    { src: "images/placeholder.png", title: "Craftsmanship" },
+    { src: "images/placeholder.png", title: "Materials" },
+    { src: "images/placeholder.png", title: "Sound" },
   ];
 
   const containerRef = useRef<HTMLDivElement>(null);

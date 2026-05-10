@@ -23,19 +23,19 @@ export default function Home() {
       </HeroSection>
       <ThreeImageSection />
       <InfoSection
-        title="Lorem ipsum dolor"
-        description="Est aliquam viverra mauris tellus bibendum posuere ornare dictum. Sit eget libero id gravida tellus cras mi pretium. Proin tempor vestibulum nullam dictum parturient aliquet vitae et a. "
+        title="Custom Hardware"
+        description="Every component is chosen or made with intention. From bridges to tuning machines, we source and modify hardware to match the character of each instrument — so nothing feels off-the-shelf, because nothing is."
         imageUrl="images/image.png"
       />
       <InfoSection
         reverse
-        title="Lorem ipsum dolor"
-        description="Est aliquam viverra mauris tellus bibendum posuere ornare dictum. Sit eget libero id gravida tellus cras mi pretium. Proin tempor vestibulum nullam dictum parturient aliquet vitae et a. "
+        title="Intricate Joinery"
+        description="The way wood comes together tells you everything about how an instrument was made. Every joint is cut, fitted, and finished by hand — built to last, and built to be noticed by anyone who looks closely enough."
         imageUrl="images/image2.png"
       />
       <InfoSection
-        title="Lorem ipsum dolor"
-        description="Est aliquam viverra mauris tellus bibendum posuere ornare dictum. Sit eget libero id gravida tellus cras mi pretium. Proin tempor vestibulum nullam dictum parturient aliquet vitae et a. "
+        title="Hand Polished"
+        description="The finish is the final conversation between the maker and the instrument. Every surface is polished by hand, layer by layer, until it feels exactly right — smooth, alive, and ready to play."
         imageUrl="images/image3.png"
       />
       <Footer />

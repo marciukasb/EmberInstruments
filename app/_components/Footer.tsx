@@ -25,7 +25,7 @@ const Footer = () => {
           ></path>
         </svg>
       </a>
-      <h6>© 2023 Ember Instruments | All rights reserved</h6>
+      <h6>© {new Date().getFullYear()} Ember Instruments | All rights reserved</h6>
     </footer>
   );
 };
