@@ -11,22 +11,28 @@ jobs:
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4
 
       - name: Setup Node version
-        uses: actions/setup-node@v2-beta
+        uses: actions/setup-node@v4
         with:
-          node-version: "20.2.0"
+          node-version: "20"
 
       - name: Build 🔨
         run: |
-          npm install
+          npm ci
           npm run build
+
       - name: FTP Upload 📂
-        uses: SamKirkland/FTP-Deploy-Action@4.1.0
-        with:
-          server: ftp.emberinstruments.com
-          username: u429394839.EmberInstruments
-          password: ${{ secrets.ftp_password }}
-          local-dir: ./out/
-          dangerous-clean-slate: true
+        env:
+          FTP_PASSWORD: ${{ secrets.ftp_password }}
+        run: |
+          lftp -c "
+            set ftp:passive-mode yes;
+            set net:max-retries 5;
+            set net:reconnect-interval-base 5;
+            set net:reconnect-interval-multiplier 1;
+            open ftp://u429394839.EmberInstruments:$FTP_PASSWORD@ftp.emberinstruments.com;
+            mirror --reverse --delete --verbose ./out/ /;
+            bye
+          "
