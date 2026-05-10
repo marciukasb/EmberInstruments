@@ -2,7 +2,7 @@
 date: "2026-05-10"
 title: title
 summary: summaery
-thumbnail: /public/images/image.png
+thumbnail: /images/image.png
 topic: topic
 ---
 
