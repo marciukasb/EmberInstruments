@@ -29,13 +29,13 @@ export default function Home() {
       />
       <InfoSection
         reverse
-        title='Intricate Joinery'
-        description='The way wood comes together tells you everything about how an instrument was made. Every joint is cut, fitted, and finished by hand - built to last, and built to be noticed by anyone who looks closely enough.'
+        title='Hand Polished'
+        description='The finish is the final conversation between the maker and the instrument. Every surface is polished by hand, layer by layer, until it feels exactly right - smooth, alive, and ready to play.'
         imageUrl='images/image2.png'
       />
       <InfoSection
-        title='Hand Polished'
-        description='The finish is the final conversation between the maker and the instrument. Every surface is polished by hand, layer by layer, until it feels exactly right - smooth, alive, and ready to play.'
+        title='Intricate Joinery'
+        description='The way wood comes together tells you everything about how an instrument was made. Every joint is cut, fitted, and finished by hand - built to last, and built to be noticed by anyone who looks closely enough.'
         imageUrl='images/image3.png'
       />
       <Footer />

@@ -1,5 +1,5 @@
-@import "./_breakpoints.scss";
-@import "./_variables.scss";
+@import './_breakpoints.scss';
+@import './_variables.scss';
 
 .infoSection {
   display: flex;
@@ -31,6 +31,7 @@
     font-size: 1.125rem;
     line-height: 1.6;
     max-width: 100%;
+    color: #9b9b9b;
   }
 
   &__imageWrapper {
