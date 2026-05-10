@@ -1,10 +1,10 @@
-# Marksman CMS — Implementation Plan
+# Marksman CMS - Implementation Plan
 
 > **For agentic workers:** REQUIRED SUB-SKILL: Use superpowers:subagent-driven-development (recommended) or superpowers:executing-plans to implement this plan task-by-task. Steps use checkbox (`- [ ]`) syntax for tracking.
 
-**Goal:** Replace the EmberInstruments Siteleaf RSS blog feed with local markdown files, and build Marksman — a generic, config-driven Git CMS admin panel deployed to GitHub Pages.
+**Goal:** Replace the EmberInstruments Siteleaf RSS blog feed with local markdown files, and build Marksman - a generic, config-driven Git CMS admin panel deployed to GitHub Pages.
 
-**Architecture:** Two phases. Phase 1 updates EmberInstruments to read blog posts from `app/_data/_blog/*.md` at build time using `gray-matter` + Node `fs`. Phase 2 builds the Marksman Vite+React SPA in a new repo — a client-side app that reads/writes markdown files in any GitHub repo via the Octokit REST API, with pages dynamically rendered from a `.cms.json` config file in each target repo.
+**Architecture:** Two phases. Phase 1 updates EmberInstruments to read blog posts from `app/_data/_blog/*.md` at build time using `gray-matter` + Node `fs`. Phase 2 builds the Marksman Vite+React SPA in a new repo - a client-side app that reads/writes markdown files in any GitHub repo via the Octokit REST API, with pages dynamically rendered from a `.cms.json` config file in each target repo.
 
 **Tech Stack:** Next.js 14, gray-matter, Node fs (Phase 1) · Vite + React + TypeScript, SCSS modules, @octokit/rest, gray-matter, @uiw/react-md-editor, react-router-dom, Vitest + jsdom (Phase 2)
 
@@ -12,56 +12,57 @@
 
 ## File Map
 
-### Phase 1 — EmberInstruments (existing repo)
+### Phase 1 - EmberInstruments (existing repo)
 
-| Action | Path |
-|--------|------|
-| Modify | `package.json` |
-| Create | `app/utils/blog.ts` |
-| Modify | `app/types/BlogPost.ts` |
-| Modify | `app/blog/page.tsx` |
-| Rename | `app/blog/[title]/` → `app/blog/[slug]/` |
-| Modify | `app/blog/[slug]/page.tsx` |
+| Action | Path                                        |
+| ------ | ------------------------------------------- |
+| Modify | `package.json`                              |
+| Create | `app/utils/blog.ts`                         |
+| Modify | `app/types/BlogPost.ts`                     |
+| Modify | `app/blog/page.tsx`                         |
+| Rename | `app/blog/[title]/` → `app/blog/[slug]/`    |
+| Modify | `app/blog/[slug]/page.tsx`                  |
 | Modify | `app/_components/BlogList/BlogListItem.tsx` |
-| Create | `app/_data/_blog/sample-post.md` |
-| Create | `.cms.json` |
+| Create | `app/_data/_blog/sample-post.md`            |
+| Create | `.cms.json`                                 |
 
-### Phase 2 — Marksman (new repo at `~/Documents/Github/marksman`)
+### Phase 2 - Marksman (new repo at `~/Documents/Github/marksman`)
 
-| Action | Path |
-|--------|------|
-| Create | `vite.config.ts` |
-| Create | `src/types/index.ts` |
-| Create | `src/lib/storage.ts` + `src/lib/storage.test.ts` |
+| Action | Path                                                     |
+| ------ | -------------------------------------------------------- |
+| Create | `vite.config.ts`                                         |
+| Create | `src/types/index.ts`                                     |
+| Create | `src/lib/storage.ts` + `src/lib/storage.test.ts`         |
 | Create | `src/lib/frontmatter.ts` + `src/lib/frontmatter.test.ts` |
-| Create | `src/lib/github.ts` |
-| Create | `src/context/ProjectContext.tsx` |
-| Create | `src/App.tsx` |
-| Create | `src/main.tsx` |
+| Create | `src/lib/github.ts`                                      |
+| Create | `src/context/ProjectContext.tsx`                         |
+| Create | `src/App.tsx`                                            |
+| Create | `src/main.tsx`                                           |
 | Create | `src/styles/globals.scss` + `src/styles/_variables.scss` |
-| Create | `src/components/ui/Button.tsx` + `.module.scss` |
-| Create | `src/components/ui/Loader.tsx` + `.module.scss` |
-| Create | `src/components/fields/TextField.tsx` |
-| Create | `src/components/fields/TextareaField.tsx` |
-| Create | `src/components/fields/DateField.tsx` |
-| Create | `src/components/fields/SelectField.tsx` |
-| Create | `src/components/fields/ImageField.tsx` |
-| Create | `src/components/fields/MarkdownField.tsx` |
-| Create | `src/pages/ProjectsPage.tsx` + `.module.scss` |
-| Create | `src/pages/CollectionsPage.tsx` + `.module.scss` |
-| Create | `src/pages/PostListPage.tsx` + `.module.scss` |
-| Create | `src/pages/PostEditorPage.tsx` + `.module.scss` |
-| Create | `.github/workflows/deploy.yml` |
+| Create | `src/components/ui/Button.tsx` + `.module.scss`          |
+| Create | `src/components/ui/Loader.tsx` + `.module.scss`          |
+| Create | `src/components/fields/TextField.tsx`                    |
+| Create | `src/components/fields/TextareaField.tsx`                |
+| Create | `src/components/fields/DateField.tsx`                    |
+| Create | `src/components/fields/SelectField.tsx`                  |
+| Create | `src/components/fields/ImageField.tsx`                   |
+| Create | `src/components/fields/MarkdownField.tsx`                |
+| Create | `src/pages/ProjectsPage.tsx` + `.module.scss`            |
+| Create | `src/pages/CollectionsPage.tsx` + `.module.scss`         |
+| Create | `src/pages/PostListPage.tsx` + `.module.scss`            |
+| Create | `src/pages/PostEditorPage.tsx` + `.module.scss`          |
+| Create | `.github/workflows/deploy.yml`                           |
 
 ---
 
-## Phase 1: EmberInstruments — Switch to Local Markdown
+## Phase 1: EmberInstruments - Switch to Local Markdown
 
 ### Task 1: Install gray-matter and add shared blog reader utility
 
 **Repo:** `EmberInstruments`
 
 **Files:**
+
 - Modify: `package.json`
 - Modify: `app/types/BlogPost.ts`
 - Create: `app/utils/blog.ts`
@@ -81,14 +82,14 @@ Replace the contents of `app/types/BlogPost.ts`:
 
 ```typescript
 export type BlogPost = {
-  slug: string;
-  title: string;
-  summary: string;
-  description: string;
-  date: string;
-  topic: string;
-  thumbnail: string;
-};
+  slug: string
+  title: string
+  summary: string
+  description: string
+  date: string
+  topic: string
+  thumbnail: string
+}
 ```
 
 - [ ] **Step 3: Create the shared blog reader utility**
@@ -96,23 +97,23 @@ export type BlogPost = {
 Create `app/utils/blog.ts`:
 
 ```typescript
-import { readdir, readFile } from 'fs/promises';
-import { join } from 'path';
-import matter from 'gray-matter';
-import type { BlogPost } from '../types/BlogPost';
-import { formatDate } from './index';
+import { readdir, readFile } from 'fs/promises'
+import { join } from 'path'
+import matter from 'gray-matter'
+import type { BlogPost } from '../types/BlogPost'
+import { formatDate } from './index'
 
-const BLOG_DIR = join(process.cwd(), 'app/_data/_blog');
+const BLOG_DIR = join(process.cwd(), 'app/_data/_blog')
 
 export async function readAllPosts(): Promise<BlogPost[]> {
-  const files = await readdir(BLOG_DIR);
+  const files = await readdir(BLOG_DIR)
   const posts = await Promise.all(
     files
-      .filter(f => f.endsWith('.md'))
-      .map(async filename => {
-        const slug = filename.replace(/\.md$/, '');
-        const raw = await readFile(join(BLOG_DIR, filename), 'utf-8');
-        const { data, content } = matter(raw);
+      .filter((f) => f.endsWith('.md'))
+      .map(async (filename) => {
+        const slug = filename.replace(/\.md$/, '')
+        const raw = await readFile(join(BLOG_DIR, filename), 'utf-8')
+        const { data, content } = matter(raw)
         return {
           slug,
           title: (data.title as string) ?? '',
@@ -121,18 +122,18 @@ export async function readAllPosts(): Promise<BlogPost[]> {
           date: (data.date as string) ?? '',
           topic: (data.topic as string) ?? '',
           thumbnail: (data.thumbnail as string) ?? '',
-        } satisfies BlogPost;
-      })
-  );
+        } satisfies BlogPost
+      }),
+  )
   return posts
     .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())
-    .map(p => ({ ...p, date: formatDate(p.date) }));
+    .map((p) => ({ ...p, date: formatDate(p.date) }))
 }
 
 export async function readPostBySlug(slug: string): Promise<BlogPost | null> {
   try {
-    const raw = await readFile(join(BLOG_DIR, `${slug}.md`), 'utf-8');
-    const { data, content } = matter(raw);
+    const raw = await readFile(join(BLOG_DIR, `${slug}.md`), 'utf-8')
+    const { data, content } = matter(raw)
     return {
       slug,
       title: (data.title as string) ?? '',
@@ -141,9 +142,9 @@ export async function readPostBySlug(slug: string): Promise<BlogPost | null> {
       date: formatDate(data.date as string),
       topic: (data.topic as string) ?? '',
       thumbnail: (data.thumbnail as string) ?? '',
-    } satisfies BlogPost;
+    } satisfies BlogPost
   } catch {
-    return null;
+    return null
   }
 }
 ```
@@ -160,6 +161,7 @@ git commit -m "feat: add blog.ts utility to read markdown posts from filesystem"
 ### Task 2: Update blog list page and add sample post
 
 **Files:**
+
 - Modify: `app/blog/page.tsx`
 - Create: `app/_data/_blog/sample-post.md`
 
@@ -169,11 +171,11 @@ Create `app/_data/_blog/sample-post.md`:
 
 ```markdown
 ---
-title: "Sample Post"
-summary: "This is a sample blog post to verify the markdown pipeline."
-topic: "General"
-date: "2026-05-10"
-thumbnail: "/images/placeholder.png"
+title: 'Sample Post'
+summary: 'This is a sample blog post to verify the markdown pipeline.'
+topic: 'General'
+date: '2026-05-10'
+thumbnail: '/images/placeholder.png'
 ---
 
 This is the body of the sample post. It confirms that the markdown-based blog pipeline is working correctly.
@@ -223,6 +225,7 @@ git commit -m "feat: switch blog list to read from local markdown files"
 ### Task 3: Update blog detail page and fix post links
 
 **Files:**
+
 - Rename: `app/blog/[title]/` → `app/blog/[slug]/`
 - Modify: `app/blog/[slug]/page.tsx`
 - Modify: `app/_components/BlogList/BlogListItem.tsx`
@@ -311,6 +314,7 @@ git commit -m "feat: switch blog detail page to slug-based routing"
 ### Task 4: Add .cms.json config to EmberInstruments
 
 **Files:**
+
 - Create: `.cms.json`
 
 - [ ] **Step 1: Create the CMS config file**
@@ -346,7 +350,7 @@ git commit -m "feat: add .cms.json config for Marksman CMS"
 
 ---
 
-## Phase 2: Marksman — New Repo
+## Phase 2: Marksman - New Repo
 
 > All tasks in Phase 2 are in a **new directory**: `~/Documents/Github/marksman`
 > Create the GitHub repo `marksman` (public or private) before starting.
@@ -356,6 +360,7 @@ git commit -m "feat: add .cms.json config for Marksman CMS"
 ### Task 5: Scaffold Vite + React + TypeScript project
 
 **Files:**
+
 - Create: entire project scaffold
 - Modify: `vite.config.ts`
 - Modify: `package.json`
@@ -380,8 +385,8 @@ npm install -D vitest @vitest/ui jsdom @testing-library/react @testing-library/u
 Replace the full contents of `vite.config.ts`:
 
 ```typescript
-import { defineConfig } from 'vite';
-import react from '@vitejs/plugin-react';
+import { defineConfig } from 'vite'
+import react from '@vitejs/plugin-react'
 
 export default defineConfig({
   plugins: [react()],
@@ -394,7 +399,7 @@ export default defineConfig({
   optimizeDeps: {
     include: ['gray-matter'],
   },
-});
+})
 ```
 
 - [ ] **Step 4: Create test setup file**
@@ -402,7 +407,7 @@ export default defineConfig({
 Create `src/test-setup.ts`:
 
 ```typescript
-import '@testing-library/jest-dom';
+import '@testing-library/jest-dom'
 ```
 
 - [ ] **Step 5: Add test script to package.json**
@@ -446,6 +451,7 @@ git push -u origin master
 ### Task 6: Define TypeScript types
 
 **Files:**
+
 - Create: `src/types/index.ts`
 
 - [ ] **Step 1: Create types file**
@@ -453,43 +459,49 @@ git push -u origin master
 Create `src/types/index.ts`:
 
 ```typescript
-export type FieldType = 'text' | 'textarea' | 'date' | 'select' | 'image' | 'markdown';
+export type FieldType =
+  | 'text'
+  | 'textarea'
+  | 'date'
+  | 'select'
+  | 'image'
+  | 'markdown'
 
 export interface FieldConfig {
-  name: string;
-  type: FieldType;
-  options?: string[];
+  name: string
+  type: FieldType
+  options?: string[]
 }
 
 export interface CollectionConfig {
-  name: string;
-  folder: string;
-  imageFolder: string;
-  fields: FieldConfig[];
+  name: string
+  folder: string
+  imageFolder: string
+  fields: FieldConfig[]
 }
 
 export interface CmsConfig {
-  collections: CollectionConfig[];
+  collections: CollectionConfig[]
 }
 
 export interface Project {
-  id: string;
-  label: string;
-  owner: string;
-  repo: string;
-  pat: string;
+  id: string
+  label: string
+  owner: string
+  repo: string
+  pat: string
 }
 
 export interface PostFile {
-  name: string;
-  path: string;
-  sha: string;
+  name: string
+  path: string
+  sha: string
 }
 
 export interface ParsedPost {
-  data: Record<string, string>;
-  body: string;
-  sha: string;
+  data: Record<string, string>
+  body: string
+  sha: string
 }
 ```
 
@@ -505,6 +517,7 @@ git commit -m "feat: add shared TypeScript types"
 ### Task 7: Implement storage.ts with tests
 
 **Files:**
+
 - Create: `src/lib/storage.ts`
 - Create: `src/lib/storage.test.ts`
 
@@ -513,9 +526,9 @@ git commit -m "feat: add shared TypeScript types"
 Create `src/lib/storage.test.ts`:
 
 ```typescript
-import { describe, it, expect, beforeEach } from 'vitest';
-import { getProjects, saveProject, deleteProject } from './storage';
-import type { Project } from '../types';
+import { describe, it, expect, beforeEach } from 'vitest'
+import { getProjects, saveProject, deleteProject } from './storage'
+import type { Project } from '../types'
 
 const PROJECT: Project = {
   id: 'abc123',
@@ -523,50 +536,50 @@ const PROJECT: Project = {
   owner: 'marciukasb',
   repo: 'EmberInstruments',
   pat: 'ghp_test',
-};
+}
 
 beforeEach(() => {
-  localStorage.clear();
-});
+  localStorage.clear()
+})
 
 describe('getProjects', () => {
   it('returns empty array when nothing is stored', () => {
-    expect(getProjects()).toEqual([]);
-  });
-});
+    expect(getProjects()).toEqual([])
+  })
+})
 
 describe('saveProject', () => {
   it('saves a project and retrieves it', () => {
-    saveProject(PROJECT);
-    expect(getProjects()).toEqual([PROJECT]);
-  });
+    saveProject(PROJECT)
+    expect(getProjects()).toEqual([PROJECT])
+  })
 
   it('replaces an existing project with the same id', () => {
-    saveProject(PROJECT);
-    saveProject({ ...PROJECT, label: 'Updated' });
-    const projects = getProjects();
-    expect(projects).toHaveLength(1);
-    expect(projects[0].label).toBe('Updated');
-  });
+    saveProject(PROJECT)
+    saveProject({ ...PROJECT, label: 'Updated' })
+    const projects = getProjects()
+    expect(projects).toHaveLength(1)
+    expect(projects[0].label).toBe('Updated')
+  })
 
   it('saves multiple distinct projects', () => {
-    saveProject(PROJECT);
-    saveProject({ ...PROJECT, id: 'xyz', label: 'Other' });
-    expect(getProjects()).toHaveLength(2);
-  });
-});
+    saveProject(PROJECT)
+    saveProject({ ...PROJECT, id: 'xyz', label: 'Other' })
+    expect(getProjects()).toHaveLength(2)
+  })
+})
 
 describe('deleteProject', () => {
   it('removes a project by id', () => {
-    saveProject(PROJECT);
-    deleteProject(PROJECT.id);
-    expect(getProjects()).toEqual([]);
-  });
+    saveProject(PROJECT)
+    deleteProject(PROJECT.id)
+    expect(getProjects()).toEqual([])
+  })
 
   it('does not error when id does not exist', () => {
-    expect(() => deleteProject('nonexistent')).not.toThrow();
-  });
-});
+    expect(() => deleteProject('nonexistent')).not.toThrow()
+  })
+})
 ```
 
 - [ ] **Step 2: Run tests to confirm they fail**
@@ -582,22 +595,25 @@ Expected: test file fails with "Cannot find module './storage'".
 Create `src/lib/storage.ts`:
 
 ```typescript
-import type { Project } from '../types';
+import type { Project } from '../types'
 
-const KEY = 'marksman:projects';
+const KEY = 'marksman:projects'
 
 export function getProjects(): Project[] {
-  const raw = localStorage.getItem(KEY);
-  return raw ? (JSON.parse(raw) as Project[]) : [];
+  const raw = localStorage.getItem(KEY)
+  return raw ? (JSON.parse(raw) as Project[]) : []
 }
 
 export function saveProject(project: Project): void {
-  const rest = getProjects().filter(p => p.id !== project.id);
-  localStorage.setItem(KEY, JSON.stringify([...rest, project]));
+  const rest = getProjects().filter((p) => p.id !== project.id)
+  localStorage.setItem(KEY, JSON.stringify([...rest, project]))
 }
 
 export function deleteProject(id: string): void {
-  localStorage.setItem(KEY, JSON.stringify(getProjects().filter(p => p.id !== id)));
+  localStorage.setItem(
+    KEY,
+    JSON.stringify(getProjects().filter((p) => p.id !== id)),
+  )
 }
 ```
 
@@ -621,6 +637,7 @@ git commit -m "feat: add storage lib for project persistence"
 ### Task 8: Implement frontmatter.ts with tests
 
 **Files:**
+
 - Create: `src/lib/frontmatter.ts`
 - Create: `src/lib/frontmatter.test.ts`
 
@@ -629,43 +646,43 @@ git commit -m "feat: add storage lib for project persistence"
 Create `src/lib/frontmatter.test.ts`:
 
 ```typescript
-import { describe, it, expect } from 'vitest';
-import { parsePost, serializePost, generateSlug } from './frontmatter';
+import { describe, it, expect } from 'vitest'
+import { parsePost, serializePost, generateSlug } from './frontmatter'
 
 describe('generateSlug', () => {
   it('lowercases and hyphenates a title', () => {
-    expect(generateSlug('My First Post')).toBe('my-first-post');
-  });
+    expect(generateSlug('My First Post')).toBe('my-first-post')
+  })
 
   it('strips non-alphanumeric characters', () => {
-    expect(generateSlug('Hello, World!')).toBe('hello-world');
-  });
+    expect(generateSlug('Hello, World!')).toBe('hello-world')
+  })
 
   it('collapses multiple spaces and hyphens', () => {
-    expect(generateSlug('one  two---three')).toBe('one-two-three');
-  });
-});
+    expect(generateSlug('one  two---three')).toBe('one-two-three')
+  })
+})
 
 describe('parsePost', () => {
   it('parses frontmatter and body from raw markdown', () => {
-    const raw = `---\ntitle: "Hello"\ndate: "2026-01-01"\n---\n\nBody here.`;
-    const { data, body } = parsePost(raw);
-    expect(data.title).toBe('Hello');
-    expect(data.date).toBe('2026-01-01');
-    expect(body.trim()).toBe('Body here.');
-  });
-});
+    const raw = `---\ntitle: "Hello"\ndate: "2026-01-01"\n---\n\nBody here.`
+    const { data, body } = parsePost(raw)
+    expect(data.title).toBe('Hello')
+    expect(data.date).toBe('2026-01-01')
+    expect(body.trim()).toBe('Body here.')
+  })
+})
 
 describe('serializePost', () => {
   it('round-trips data and body through serialize then parse', () => {
-    const data = { title: 'Test', date: '2026-05-10' };
-    const body = 'Post content here.';
-    const raw = serializePost(data, body);
-    const parsed = parsePost(raw);
-    expect(parsed.data.title).toBe('Test');
-    expect(parsed.body.trim()).toBe('Post content here.');
-  });
-});
+    const data = { title: 'Test', date: '2026-05-10' }
+    const body = 'Post content here.'
+    const raw = serializePost(data, body)
+    const parsed = parsePost(raw)
+    expect(parsed.data.title).toBe('Test')
+    expect(parsed.body.trim()).toBe('Post content here.')
+  })
+})
 ```
 
 - [ ] **Step 2: Run tests to confirm they fail**
@@ -681,15 +698,21 @@ Expected: fails with "Cannot find module './frontmatter'".
 Create `src/lib/frontmatter.ts`:
 
 ```typescript
-import matter from 'gray-matter';
+import matter from 'gray-matter'
 
-export function parsePost(raw: string): { data: Record<string, string>; body: string } {
-  const { data, content } = matter(raw);
-  return { data: data as Record<string, string>, body: content };
+export function parsePost(raw: string): {
+  data: Record<string, string>
+  body: string
+} {
+  const { data, content } = matter(raw)
+  return { data: data as Record<string, string>, body: content }
 }
 
-export function serializePost(data: Record<string, string>, body: string): string {
-  return matter.stringify(body, data);
+export function serializePost(
+  data: Record<string, string>,
+  body: string,
+): string {
+  return matter.stringify(body, data)
 }
 
 export function generateSlug(title: string): string {
@@ -698,7 +721,7 @@ export function generateSlug(title: string): string {
     .replace(/[^a-z0-9\s]/g, '')
     .replace(/\s+/g, '-')
     .replace(/-+/g, '-')
-    .trim();
+    .trim()
 }
 ```
 
@@ -722,6 +745,7 @@ git commit -m "feat: add frontmatter parse/serialize utility"
 ### Task 9: Implement github.ts (Octokit wrapper)
 
 **Files:**
+
 - Create: `src/lib/github.ts`
 
 - [ ] **Step 1: Create the GitHub API wrapper**
@@ -729,46 +753,64 @@ git commit -m "feat: add frontmatter parse/serialize utility"
 Create `src/lib/github.ts`:
 
 ```typescript
-import { Octokit } from '@octokit/rest';
-import type { CmsConfig, PostFile } from '../types';
+import { Octokit } from '@octokit/rest'
+import type { CmsConfig, PostFile } from '../types'
 
 function client(pat: string) {
-  return new Octokit({ auth: pat });
+  return new Octokit({ auth: pat })
 }
 
 function decodeBase64(encoded: string): string {
-  return decodeURIComponent(escape(atob(encoded.replace(/\n/g, ''))));
+  return decodeURIComponent(escape(atob(encoded.replace(/\n/g, ''))))
 }
 
 function encodeBase64(str: string): string {
-  return btoa(unescape(encodeURIComponent(str)));
+  return btoa(unescape(encodeURIComponent(str)))
 }
 
-export async function fetchConfig(pat: string, owner: string, repo: string): Promise<CmsConfig> {
-  const octokit = client(pat);
-  const { data } = await octokit.repos.getContent({ owner, repo, path: '.cms.json' });
+export async function fetchConfig(
+  pat: string,
+  owner: string,
+  repo: string,
+): Promise<CmsConfig> {
+  const octokit = client(pat)
+  const { data } = await octokit.repos.getContent({
+    owner,
+    repo,
+    path: '.cms.json',
+  })
   if ('content' in data) {
-    return JSON.parse(decodeBase64(data.content)) as CmsConfig;
+    return JSON.parse(decodeBase64(data.content)) as CmsConfig
   }
-  throw new Error('.cms.json not found or is a directory');
+  throw new Error('.cms.json not found or is a directory')
 }
 
-export async function listFiles(pat: string, owner: string, repo: string, folder: string): Promise<PostFile[]> {
-  const octokit = client(pat);
-  const { data } = await octokit.repos.getContent({ owner, repo, path: folder });
-  if (!Array.isArray(data)) return [];
+export async function listFiles(
+  pat: string,
+  owner: string,
+  repo: string,
+  folder: string,
+): Promise<PostFile[]> {
+  const octokit = client(pat)
+  const { data } = await octokit.repos.getContent({ owner, repo, path: folder })
+  if (!Array.isArray(data)) return []
   return data
-    .filter(f => f.type === 'file' && f.name.endsWith('.md'))
-    .map(f => ({ name: f.name, path: f.path, sha: f.sha }));
+    .filter((f) => f.type === 'file' && f.name.endsWith('.md'))
+    .map((f) => ({ name: f.name, path: f.path, sha: f.sha }))
 }
 
-export async function fetchFile(pat: string, owner: string, repo: string, path: string): Promise<{ content: string; sha: string }> {
-  const octokit = client(pat);
-  const { data } = await octokit.repos.getContent({ owner, repo, path });
+export async function fetchFile(
+  pat: string,
+  owner: string,
+  repo: string,
+  path: string,
+): Promise<{ content: string; sha: string }> {
+  const octokit = client(pat)
+  const { data } = await octokit.repos.getContent({ owner, repo, path })
   if ('content' in data && !Array.isArray(data)) {
-    return { content: decodeBase64(data.content), sha: data.sha };
+    return { content: decodeBase64(data.content), sha: data.sha }
   }
-  throw new Error(`File not found: ${path}`);
+  throw new Error(`File not found: ${path}`)
 }
 
 export async function putFile(
@@ -781,7 +823,7 @@ export async function putFile(
   sha?: string,
   branch?: string,
 ): Promise<void> {
-  const octokit = client(pat);
+  const octokit = client(pat)
   await octokit.repos.createOrUpdateFileContents({
     owner,
     repo,
@@ -790,7 +832,7 @@ export async function putFile(
     content: encodeBase64(content),
     ...(sha ? { sha } : {}),
     ...(branch ? { branch } : {}),
-  });
+  })
 }
 
 export async function uploadImage(
@@ -801,14 +843,14 @@ export async function uploadImage(
   filename: string,
   base64Content: string,
 ): Promise<string> {
-  const octokit = client(pat);
-  const path = `${imageFolder}/${filename}`;
-  let sha: string | undefined;
+  const octokit = client(pat)
+  const path = `${imageFolder}/${filename}`
+  let sha: string | undefined
   try {
-    const { data } = await octokit.repos.getContent({ owner, repo, path });
-    if (!Array.isArray(data) && 'sha' in data) sha = data.sha;
+    const { data } = await octokit.repos.getContent({ owner, repo, path })
+    if (!Array.isArray(data) && 'sha' in data) sha = data.sha
   } catch {
-    // file does not exist yet — no sha needed
+    // file does not exist yet - no sha needed
   }
   await octokit.repos.createOrUpdateFileContents({
     owner,
@@ -817,8 +859,8 @@ export async function uploadImage(
     message: `cms: upload image ${filename}`,
     content: base64Content,
     ...(sha ? { sha } : {}),
-  });
-  return `/${path}`;
+  })
+  return `/${path}`
 }
 
 export async function deleteFile(
@@ -828,14 +870,14 @@ export async function deleteFile(
   path: string,
   sha: string,
 ): Promise<void> {
-  const octokit = client(pat);
+  const octokit = client(pat)
   await octokit.repos.deleteFile({
     owner,
     repo,
     path,
     message: `cms: delete ${path}`,
     sha,
-  });
+  })
 }
 
 export async function ensureDraftsBranch(
@@ -844,17 +886,21 @@ export async function ensureDraftsBranch(
   repo: string,
   defaultBranch: string,
 ): Promise<void> {
-  const octokit = client(pat);
+  const octokit = client(pat)
   try {
-    await octokit.repos.getBranch({ owner, repo, branch: 'cms-drafts' });
+    await octokit.repos.getBranch({ owner, repo, branch: 'cms-drafts' })
   } catch {
-    const { data: ref } = await octokit.git.getRef({ owner, repo, ref: `heads/${defaultBranch}` });
+    const { data: ref } = await octokit.git.getRef({
+      owner,
+      repo,
+      ref: `heads/${defaultBranch}`,
+    })
     await octokit.git.createRef({
       owner,
       repo,
       ref: 'refs/heads/cms-drafts',
       sha: ref.object.sha,
-    });
+    })
   }
 }
 ```
@@ -871,6 +917,7 @@ git commit -m "feat: add GitHub API wrapper (Octokit)"
 ### Task 10: Set up routing, context, and app shell
 
 **Files:**
+
 - Create: `src/context/ProjectContext.tsx`
 - Create: `src/App.tsx`
 - Create: `src/main.tsx`
@@ -992,7 +1039,13 @@ Create `src/styles/globals.scss`:
 ```scss
 @use 'variables' as *;
 
-*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
 
 body {
   font-family: $font;
@@ -1001,9 +1054,15 @@ body {
   min-height: 100vh;
 }
 
-a { color: inherit; text-decoration: none; }
+a {
+  color: inherit;
+  text-decoration: none;
+}
 
-input, textarea, select, button {
+input,
+textarea,
+select,
+button {
   font-family: inherit;
   font-size: inherit;
 }
@@ -1012,21 +1071,25 @@ input, textarea, select, button {
 - [ ] **Step 5: Stub out page files so the router compiles**
 
 Create placeholder `src/pages/ProjectsPage.tsx`:
+
 ```typescript
 export default function ProjectsPage() { return <div>Projects</div>; }
 ```
 
 Create placeholder `src/pages/CollectionsPage.tsx`:
+
 ```typescript
 export default function CollectionsPage() { return <div>Collections</div>; }
 ```
 
 Create placeholder `src/pages/PostListPage.tsx`:
+
 ```typescript
 export default function PostListPage() { return <div>PostList</div>; }
 ```
 
 Create placeholder `src/pages/PostEditorPage.tsx`:
+
 ```typescript
 export default function PostEditorPage() { return <div>PostEditor</div>; }
 ```
@@ -1051,6 +1114,7 @@ git commit -m "feat: set up routing, ProjectContext, and app shell"
 ### Task 11: Shared UI components
 
 **Files:**
+
 - Create: `src/components/ui/Button.tsx` + `Button.module.scss`
 - Create: `src/components/ui/Loader.tsx` + `Loader.module.scss`
 
@@ -1094,12 +1158,25 @@ Create `src/components/ui/Button.module.scss`:
   font-weight: 500;
   transition: opacity 0.15s;
 
-  &:disabled { opacity: 0.5; cursor: not-allowed; }
+  &:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
 }
 
-.primary { background: $color-accent; color: #000; }
-.secondary { background: $color-surface; color: $color-text; border: 1px solid $color-border; }
-.danger { background: $color-danger; color: #fff; }
+.primary {
+  background: $color-accent;
+  color: #000;
+}
+.secondary {
+  background: $color-surface;
+  color: $color-text;
+  border: 1px solid $color-border;
+}
+.danger {
+  background: $color-danger;
+  color: #fff;
+}
 ```
 
 - [ ] **Step 2: Create Loader component**
@@ -1130,7 +1207,9 @@ Create `src/components/ui/Loader.module.scss`:
 }
 
 @keyframes spin {
-  to { transform: rotate(360deg); }
+  to {
+    transform: rotate(360deg);
+  }
 }
 ```
 
@@ -1146,6 +1225,7 @@ git commit -m "feat: add Button and Loader UI components"
 ### Task 12: ProjectsPage
 
 **Files:**
+
 - Modify: `src/pages/ProjectsPage.tsx`
 - Create: `src/pages/ProjectsPage.module.scss`
 
@@ -1254,11 +1334,28 @@ Create `src/pages/ProjectsPage.module.scss`:
 ```scss
 @use '../styles/variables' as *;
 
-.page { max-width: 600px; margin: 60px auto; padding: 0 24px; }
-.title { font-size: 2rem; margin-bottom: 32px; }
-.error { color: $color-danger; margin-bottom: 16px; font-size: 0.9rem; }
+.page {
+  max-width: 600px;
+  margin: 60px auto;
+  padding: 0 24px;
+}
+.title {
+  font-size: 2rem;
+  margin-bottom: 32px;
+}
+.error {
+  color: $color-danger;
+  margin-bottom: 16px;
+  font-size: 0.9rem;
+}
 
-.list { list-style: none; display: flex; flex-direction: column; gap: 10px; margin-bottom: 24px; }
+.list {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-bottom: 24px;
+}
 
 .item {
   display: flex;
@@ -1280,10 +1377,16 @@ Create `src/pages/ProjectsPage.module.scss`:
   cursor: pointer;
   color: $color-text;
   text-align: left;
-  &:hover { background: $color-border; }
+  &:hover {
+    background: $color-border;
+  }
 }
 
-.itemRepo { font-size: 0.8rem; color: $color-text-muted; margin-top: 2px; }
+.itemRepo {
+  font-size: 0.8rem;
+  color: $color-text-muted;
+  margin-top: 2px;
+}
 
 .form {
   display: flex;
@@ -1294,7 +1397,10 @@ Create `src/pages/ProjectsPage.module.scss`:
   border-radius: $radius;
   border: 1px solid $color-border;
 
-  h2 { font-size: 1.1rem; margin-bottom: 4px; }
+  h2 {
+    font-size: 1.1rem;
+    margin-bottom: 4px;
+  }
 
   input {
     background: $color-bg;
@@ -1303,11 +1409,17 @@ Create `src/pages/ProjectsPage.module.scss`:
     padding: 8px 12px;
     border-radius: $radius;
     outline: none;
-    &:focus { border-color: $color-accent; }
+    &:focus {
+      border-color: $color-accent;
+    }
   }
 }
 
-.formActions { display: flex; gap: 10px; margin-top: 6px; }
+.formActions {
+  display: flex;
+  gap: 10px;
+  margin-top: 6px;
+}
 ```
 
 - [ ] **Step 3: Test in browser**
@@ -1330,6 +1442,7 @@ git commit -m "feat: implement ProjectsPage"
 ### Task 13: CollectionsPage
 
 **Files:**
+
 - Modify: `src/pages/CollectionsPage.tsx`
 - Create: `src/pages/CollectionsPage.module.scss`
 
@@ -1383,10 +1496,29 @@ Create `src/pages/CollectionsPage.module.scss`:
 ```scss
 @use '../styles/variables' as *;
 
-.page { max-width: 600px; margin: 60px auto; padding: 0 24px; }
-.back { background: none; border: none; color: $color-text-muted; cursor: pointer; margin-bottom: 24px; font-size: 0.9rem; }
-.title { font-size: 1.8rem; margin-bottom: 24px; }
-.list { list-style: none; display: flex; flex-direction: column; gap: 10px; }
+.page {
+  max-width: 600px;
+  margin: 60px auto;
+  padding: 0 24px;
+}
+.back {
+  background: none;
+  border: none;
+  color: $color-text-muted;
+  cursor: pointer;
+  margin-bottom: 24px;
+  font-size: 0.9rem;
+}
+.title {
+  font-size: 1.8rem;
+  margin-bottom: 24px;
+}
+.list {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
 .item {
   width: 100%;
   text-align: left;
@@ -1397,7 +1529,9 @@ Create `src/pages/CollectionsPage.module.scss`:
   color: $color-text;
   cursor: pointer;
   font-size: 1rem;
-  &:hover { border-color: $color-accent; }
+  &:hover {
+    border-color: $color-accent;
+  }
 }
 ```
 
@@ -1413,6 +1547,7 @@ git commit -m "feat: implement CollectionsPage"
 ### Task 14: PostListPage
 
 **Files:**
+
 - Modify: `src/pages/PostListPage.tsx`
 - Create: `src/pages/PostListPage.module.scss`
 
@@ -1524,12 +1659,38 @@ Create `src/pages/PostListPage.module.scss`:
 ```scss
 @use '../styles/variables' as *;
 
-.page { max-width: 700px; margin: 60px auto; padding: 0 24px; }
-.back { background: none; border: none; color: $color-text-muted; cursor: pointer; margin-bottom: 24px; font-size: 0.9rem; }
-.header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px; }
-.title { font-size: 1.8rem; }
-.error { color: $color-danger; margin-bottom: 16px; }
-.list { list-style: none; display: flex; flex-direction: column; gap: 10px; }
+.page {
+  max-width: 700px;
+  margin: 60px auto;
+  padding: 0 24px;
+}
+.back {
+  background: none;
+  border: none;
+  color: $color-text-muted;
+  cursor: pointer;
+  margin-bottom: 24px;
+  font-size: 0.9rem;
+}
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 24px;
+}
+.title {
+  font-size: 1.8rem;
+}
+.error {
+  color: $color-danger;
+  margin-bottom: 16px;
+}
+.list {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
 .item {
   display: flex;
   justify-content: space-between;
@@ -1539,11 +1700,25 @@ Create `src/pages/PostListPage.module.scss`:
   border-radius: $radius;
   padding: 14px 18px;
 }
-.itemInfo { display: flex; flex-direction: column; gap: 4px; }
-.itemTitle { font-weight: 500; }
-.itemDate { font-size: 0.8rem; color: $color-text-muted; }
-.itemActions { display: flex; gap: 8px; }
-.empty { color: $color-text-muted; }
+.itemInfo {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+.itemTitle {
+  font-weight: 500;
+}
+.itemDate {
+  font-size: 0.8rem;
+  color: $color-text-muted;
+}
+.itemActions {
+  display: flex;
+  gap: 8px;
+}
+.empty {
+  color: $color-text-muted;
+}
 ```
 
 - [ ] **Step 3: Commit**
@@ -1558,6 +1733,7 @@ git commit -m "feat: implement PostListPage"
 ### Task 15: Field components (text, textarea, date, select)
 
 **Files:**
+
 - Create: `src/components/fields/TextField.tsx`
 - Create: `src/components/fields/TextareaField.tsx`
 - Create: `src/components/fields/DateField.tsx`
@@ -1571,11 +1747,21 @@ Create `src/components/fields/fields.module.scss`:
 ```scss
 @use '../../styles/variables' as *;
 
-.field { display: flex; flex-direction: column; gap: 6px; }
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
 
-.label { font-size: 0.85rem; color: $color-text-muted; text-transform: capitalize; }
+.label {
+  font-size: 0.85rem;
+  color: $color-text-muted;
+  text-transform: capitalize;
+}
 
-.input, .textarea, .select {
+.input,
+.textarea,
+.select {
   background: $color-bg;
   border: 1px solid $color-border;
   color: $color-text;
@@ -1583,10 +1769,15 @@ Create `src/components/fields/fields.module.scss`:
   border-radius: $radius;
   outline: none;
   width: 100%;
-  &:focus { border-color: $color-accent; }
+  &:focus {
+    border-color: $color-accent;
+  }
 }
 
-.textarea { resize: vertical; min-height: 100px; }
+.textarea {
+  resize: vertical;
+  min-height: 100px;
+}
 ```
 
 - [ ] **Step 2: Create TextField**
@@ -1697,6 +1888,7 @@ git commit -m "feat: add text, textarea, date, and select field components"
 ### Task 16: ImageField component
 
 **Files:**
+
 - Create: `src/components/fields/ImageField.tsx`
 
 - [ ] **Step 1: Create ImageField**
@@ -1766,7 +1958,10 @@ Create `src/components/fields/ImageField.module.scss`:
 ```scss
 @use '../../styles/variables' as *;
 
-.row { display: flex; gap: 8px; }
+.row {
+  display: flex;
+  gap: 8px;
+}
 
 .uploadBtn {
   background: $color-surface;
@@ -1776,7 +1971,9 @@ Create `src/components/fields/ImageField.module.scss`:
   border-radius: $radius;
   cursor: pointer;
   white-space: nowrap;
-  &:disabled { opacity: 0.5; }
+  &:disabled {
+    opacity: 0.5;
+  }
 }
 
 .preview {
@@ -1786,7 +1983,10 @@ Create `src/components/fields/ImageField.module.scss`:
   object-fit: cover;
 }
 
-.error { font-size: 0.8rem; color: $color-danger; }
+.error {
+  font-size: 0.8rem;
+  color: $color-danger;
+}
 ```
 
 - [ ] **Step 2: Commit**
@@ -1801,6 +2001,7 @@ git commit -m "feat: add ImageField with GitHub upload"
 ### Task 17: MarkdownField component
 
 **Files:**
+
 - Create: `src/components/fields/MarkdownField.tsx`
 
 - [ ] **Step 1: Create MarkdownField**
@@ -1844,6 +2045,7 @@ git commit -m "feat: add MarkdownField with split-pane editor"
 ### Task 18: PostEditorPage
 
 **Files:**
+
 - Modify: `src/pages/PostEditorPage.tsx`
 - Create: `src/pages/PostEditorPage.module.scss`
 
@@ -1991,12 +2193,39 @@ Create `src/pages/PostEditorPage.module.scss`:
 ```scss
 @use '../styles/variables' as *;
 
-.page { max-width: 800px; margin: 60px auto; padding: 0 24px 80px; }
-.back { background: none; border: none; color: $color-text-muted; cursor: pointer; margin-bottom: 24px; font-size: 0.9rem; }
-.title { font-size: 1.8rem; margin-bottom: 32px; }
-.error { color: $color-danger; margin-bottom: 16px; }
-.fields { display: flex; flex-direction: column; gap: 20px; }
-.actions { display: flex; gap: 12px; margin-top: 32px; padding-top: 24px; border-top: 1px solid $color-border; }
+.page {
+  max-width: 800px;
+  margin: 60px auto;
+  padding: 0 24px 80px;
+}
+.back {
+  background: none;
+  border: none;
+  color: $color-text-muted;
+  cursor: pointer;
+  margin-bottom: 24px;
+  font-size: 0.9rem;
+}
+.title {
+  font-size: 1.8rem;
+  margin-bottom: 32px;
+}
+.error {
+  color: $color-danger;
+  margin-bottom: 16px;
+}
+.fields {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+.actions {
+  display: flex;
+  gap: 12px;
+  margin-top: 32px;
+  padding-top: 24px;
+  border-top: 1px solid $color-border;
+}
 ```
 
 - [ ] **Step 3: Test full flow in browser**
@@ -2009,8 +2238,8 @@ npm run dev
 2. Add the EmberInstruments project (use your real PAT)
 3. Open the project → open Blog Posts collection
 4. Verify the sample post appears in the list
-5. Click "Edit" on the sample post — verify all fields populate
-6. Click "New post" — fill in fields, click "Publish"
+5. Click "Edit" on the sample post - verify all fields populate
+6. Click "New post" - fill in fields, click "Publish"
 7. Verify a new `.md` file appears in `EmberInstruments/app/_data/_blog/` on GitHub after the commit
 
 Stop the server.
@@ -2027,6 +2256,7 @@ git commit -m "feat: implement PostEditorPage with dynamic field rendering"
 ### Task 19: GitHub Actions deploy to GitHub Pages
 
 **Files:**
+
 - Create: `.github/workflows/deploy.yml`
 
 - [ ] **Step 1: Create the workflow**
@@ -2071,6 +2301,7 @@ jobs:
 - [ ] **Step 2: Enable GitHub Pages in repo settings**
 
 Go to `https://github.com/marciukasb/marksman/settings/pages` and set:
+
 - Source: **Deploy from a branch**
 - Branch: `gh-pages` / `/ (root)`
 

@@ -1,54 +1,54 @@
-"use client";
+'use client'
 
-import React, { useRef, useState, useEffect } from "react";
-import styles from "./ThreeImageSection.module.scss";
+import React, { useRef, useState, useEffect } from 'react'
+import styles from './ThreeImageSection.module.scss'
 
 interface ImageItem {
-  src: string;
-  title: string;
-  alt?: string;
+  src: string
+  title: string
+  alt?: string
 }
 
 const ThreeImageSection = () => {
-  const sectionTitle = "Built by hand. Made to play.";
+  const sectionTitle = 'Built by hand. Made to play.'
   const description =
-    "At Ember Instruments, every electric guitar and bass is crafted one at a time — by hand, with care, and with musicians in mind. No shortcuts, no assembly lines. Just instruments made the way they should be.";
+    'At Ember Instruments, every electric guitar and bass is crafted one at a time - by hand, with care, and with musicians in mind. No shortcuts, no assembly lines. Just instruments made the way they should be.'
   const images: ImageItem[] = [
-    { src: "images/placeholder.png", title: "Craftsmanship" },
-    { src: "images/placeholder.png", title: "Materials" },
-    { src: "images/placeholder.png", title: "Sound" },
-  ];
+    { src: 'images/placeholder.png', title: 'Craftsmanship' },
+    { src: 'images/placeholder.png', title: 'Materials' },
+    { src: 'images/placeholder.png', title: 'Sound' },
+  ]
 
-  const containerRef = useRef<HTMLDivElement>(null);
-  const [activeIndex, setActiveIndex] = useState(0);
+  const containerRef = useRef<HTMLDivElement>(null)
+  const [activeIndex, setActiveIndex] = useState(0)
 
   useEffect(() => {
-    if (!containerRef.current) return;
+    if (!containerRef.current) return
 
     const items = containerRef.current.querySelectorAll(
-      `.${styles.threeImageSection__imageItem}`
-    );
+      `.${styles.threeImageSection__imageItem}`,
+    )
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
           if (entry.isIntersecting) {
-            const index = Array.from(items).indexOf(entry.target as Element);
-            setActiveIndex(index);
+            const index = Array.from(items).indexOf(entry.target as Element)
+            setActiveIndex(index)
           }
-        });
+        })
       },
       {
         root: containerRef.current,
         threshold: 0.5, // half visible
-      }
-    );
+      },
+    )
 
-    items.forEach((item) => observer.observe(item));
+    items.forEach((item) => observer.observe(item))
 
     return () => {
-      items.forEach((item) => observer.unobserve(item));
-    };
-  }, []);
+      items.forEach((item) => observer.unobserve(item))
+    }
+  }, [])
 
   return (
     <section className={styles.threeImageSection}>
@@ -79,15 +79,15 @@ const ThreeImageSection = () => {
               key={index}
               className={`${styles.threeImageSection__dot} ${
                 activeIndex === index
-                  ? styles["threeImageSection__dot--active"]
-                  : ""
+                  ? styles['threeImageSection__dot--active']
+                  : ''
               }`}
             />
           ))}
         </div>
       </div>
     </section>
-  );
-};
+  )
+}
 
-export default ThreeImageSection;
+export default ThreeImageSection
