@@ -6,9 +6,14 @@ import { formatDate } from './index';
 
 const BLOG_DIR = join(process.cwd(), 'app/_data/_blog');
 
+function coerceDate(value: unknown): string {
+  if (value instanceof Date) return value.toISOString().slice(0, 10);
+  return (value as string) ?? '';
+}
+
 export async function readAllPosts(): Promise<BlogPost[]> {
   const files = await readdir(BLOG_DIR);
-  const posts = await Promise.all(
+  const results = await Promise.allSettled(
     files
       .filter(f => f.endsWith('.md'))
       .map(async filename => {
@@ -20,12 +25,15 @@ export async function readAllPosts(): Promise<BlogPost[]> {
           title: (data.title as string) ?? '',
           summary: (data.summary as string) ?? '',
           description: content,
-          date: (data.date as string) ?? '',
+          date: coerceDate(data.date),
           topic: (data.topic as string) ?? '',
           thumbnail: (data.thumbnail as string) ?? '',
         } satisfies BlogPost;
       })
   );
+  const posts = results
+    .filter((r): r is PromiseFulfilledResult<BlogPost> => r.status === 'fulfilled')
+    .map(r => r.value);
   return posts
     .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())
     .map(p => ({ ...p, date: formatDate(p.date) }));
@@ -40,7 +48,7 @@ export async function readPostBySlug(slug: string): Promise<BlogPost | null> {
       title: (data.title as string) ?? '',
       summary: (data.summary as string) ?? '',
       description: content,
-      date: formatDate(data.date as string),
+      date: formatDate(coerceDate(data.date)),
       topic: (data.topic as string) ?? '',
       thumbnail: (data.thumbnail as string) ?? '',
     } satisfies BlogPost;
