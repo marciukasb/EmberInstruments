@@ -23,17 +23,14 @@ jobs:
           npm ci
           npm run build
 
-      - name: FTP Upload 📂
+      - name: Deploy via SFTP 📂
         env:
-          FTP_PASSWORD: ${{ secrets.ftp_password }}
+          SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
         run: |
-          sudo apt-get install -y lftp
-          lftp -c "
-            set ftp:passive-mode yes;
-            set net:max-retries 5;
-            set net:reconnect-interval-base 5;
-            set net:reconnect-interval-multiplier 1;
-            open ftp://u429394839.EmberInstruments:$FTP_PASSWORD@ftp.emberinstruments.com;
-            mirror --reverse --delete --verbose ./out/ /;
-            bye
-          "
+          echo "$SSH_PRIVATE_KEY" > /tmp/deploy_key
+          chmod 600 /tmp/deploy_key
+          rsync -avz --delete \
+            -e "ssh -i /tmp/deploy_key -p 65002 -o StrictHostKeyChecking=no" \
+            ./out/ \
+            u429394839@45.84.206.66:/home/u429394839/domains/emberinstruments.com/public_html/
+          rm /tmp/deploy_key
