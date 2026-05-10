@@ -1,6 +1,7 @@
 import { readdir, readFile } from 'fs/promises';
 import { join } from 'path';
 import matter from 'gray-matter';
+import { marked } from 'marked';
 import type { BlogPost } from '../types/BlogPost';
 import { formatDate } from './index';
 
@@ -24,7 +25,7 @@ export async function readAllPosts(): Promise<BlogPost[]> {
           slug,
           title: (data.title as string) ?? '',
           summary: (data.summary as string) ?? '',
-          description: content,
+          description: marked(content) as string,
           date: coerceDate(data.date),
           topic: (data.topic as string) ?? '',
           thumbnail: (data.thumbnail as string) ?? '',
@@ -47,7 +48,7 @@ export async function readPostBySlug(slug: string): Promise<BlogPost | null> {
       slug,
       title: (data.title as string) ?? '',
       summary: (data.summary as string) ?? '',
-      description: content,
+      description: marked(content) as string,
       date: formatDate(coerceDate(data.date)),
       topic: (data.topic as string) ?? '',
       thumbnail: (data.thumbnail as string) ?? '',

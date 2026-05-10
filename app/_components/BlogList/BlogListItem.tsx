@@ -4,9 +4,9 @@ import styles from "./BlogListItem.module.scss";
 import { BlogPost } from "@/app/types/BlogPost";
 import Link from "next/link";
 
-const BlogListItem = ({ title, summary, date, topic, thumbnail }: BlogPost) => {
+const BlogListItem = ({ slug, title, summary, date, topic, thumbnail }: BlogPost) => {
   return (
-    <Link href={`/blog/${title}`}>
+    <Link href={`/blog/${slug}`}>
       <div className={styles.blogItem}>
         {/* Left Column */}
         <div className={styles.blogItem__textColumn}>
