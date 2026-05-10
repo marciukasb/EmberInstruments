@@ -2,6 +2,8 @@ import BlogPost from '../../_components/BlogPost/BlogPost';
 import { readAllPosts, readPostBySlug } from '../../utils/blog';
 import { notFound } from 'next/navigation';
 
+export const dynamicParams = false;
+
 export const metadata = {
   title: 'Post',
   description: 'Latest post from Ember Instruments',
@@ -13,6 +15,7 @@ type PostProps = {
 
 export async function generateStaticParams() {
   const posts = await readAllPosts();
+  if (posts.length === 0) return [{ slug: '_empty' }];
   return posts.map(post => ({ slug: post.slug }));
 }
 

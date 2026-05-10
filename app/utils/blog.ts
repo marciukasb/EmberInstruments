@@ -13,7 +13,12 @@ function coerceDate(value: unknown): string {
 }
 
 export async function readAllPosts(): Promise<BlogPost[]> {
-  const files = await readdir(BLOG_DIR);
+  let files: string[];
+  try {
+    files = await readdir(BLOG_DIR);
+  } catch {
+    return [];
+  }
   const results = await Promise.allSettled(
     files
       .filter(f => f.endsWith('.md'))
