@@ -1,0 +1,17 @@
+{
+  "collections": [
+    {
+      "name": "Blog Posts",
+      "folder": "app/_data/_blog",
+      "imageFolder": "public/images",
+      "fields": [
+        { "name": "title", "type": "text" },
+        { "name": "summary", "type": "textarea" },
+        { "name": "topic", "type": "text" },
+        { "name": "date", "type": "date" },
+        { "name": "thumbnail", "type": "image" },
+        { "name": "body", "type": "markdown" }
+      ]
+    }
+  ]
+}
