@@ -1,7 +1,8 @@
 .footer {
   text-align: center;
   padding: 28px;
-  min-height: 100vh;
+  height: 100vh;
+  scroll-snap-align: start;
   display: flex;
   flex-direction: column;
   gap: 20px;
